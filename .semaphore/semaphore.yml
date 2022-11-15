@@ -24,9 +24,9 @@ blocks:
   - name: Deploy
     run:
       when: "branch = 'master'"
-    secrets:
-      - name: fly-io-api-token
     task:
+      secrets:
+        - name: fly-io-api-token
       jobs:
         - name: Deploy to matchfees.percymain.org
           commands:
