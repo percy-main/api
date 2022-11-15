@@ -27,6 +27,8 @@ blocks:
             - docker build .
 
   - name: Deploy
+    run:
+      when: "branch = 'master'"
     task:
       jobs:
         - name: Install flyctl
