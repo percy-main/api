@@ -1,0 +1,21 @@
+version: v1.0
+name: Percy Main Match Fees
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Test & Build
+    task:
+      jobs:
+        - name: Test & Build
+          commands:
+            - checkout
+            - sem-version node 16
+            - cache restore
+            - yarn install
+            - cache store
+            - yarn lint
+            - yarn test
+            - test-results publish junit.xml
+            - yarn build
