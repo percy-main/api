@@ -5,7 +5,7 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: Test
+  - name: Test & Build
     task:
       jobs:
         - name: Test & Build
@@ -17,4 +17,5 @@ blocks:
             - cache store
             - yarn lint
             - yarn test
+            - test-results publish junit.xml
             - yarn build
