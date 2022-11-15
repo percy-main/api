@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Scope } from "@nestjs/common";
 import { BaseLogger } from "./logger.base";
 import { Logger } from "./logger.types";
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class LogService {
   private logger: Logger;
   protected ctx = {};

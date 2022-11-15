@@ -13,7 +13,6 @@ import { Reflector } from "@nestjs/core";
 import { Request } from "express";
 import { catchError, tap } from "rxjs/operators";
 import { LogService } from "./log.service";
-import { IS_REQUEST_LOGGING_DISABLED } from "./logger.decorator";
 
 const NS_PER_SEC = 1e9;
 const NS_PER_MS = 1e6;
@@ -58,15 +57,6 @@ export class LogInterceptor implements NestInterceptor {
       .join("/");
 
     return `/${fullPath}`;
-  }
-
-  private shouldLogRequest(context: ExecutionContext) {
-    const requestLogsDisabled = this.reflector.getAllAndOverride(
-      IS_REQUEST_LOGGING_DISABLED,
-      [context.getClass(), context.getHandler()],
-    );
-
-    return !requestLogsDisabled;
   }
 
   private onRequestStarted(context: ExecutionContext) {
@@ -143,10 +133,6 @@ export class LogInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler) {
     const startTime = process.hrtime();
-
-    if (!this.shouldLogRequest(context)) {
-      return next.handle();
-    }
 
     this.onRequestStarted(context);
 

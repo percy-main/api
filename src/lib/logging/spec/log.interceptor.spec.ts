@@ -129,19 +129,4 @@ describe("log interceptor", () => {
       });
     });
   });
-
-  it("does not log when @NoRequestLogs is used", () => {
-    return new Promise<void>((done) => {
-      const { logger, interceptor, successfulCallHandler, context, reflector } =
-        getFixtures();
-      reflector.getAllAndOverride = jest.fn().mockReturnValue(true);
-
-      interceptor.intercept(context, successfulCallHandler).subscribe({
-        complete: () => {
-          expect(logger.info).toBeCalledTimes(0);
-          done();
-        },
-      });
-    });
-  });
 });
