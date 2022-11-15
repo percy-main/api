@@ -1,9 +1,9 @@
 import { Controller, Get } from "@nestjs/common";
-import { HomeService } from "./home.service";
+import { IHomeService } from "./home.service";
 
 @Controller()
 export class HomeController {
-  constructor(private readonly homeService: HomeService) {}
+  constructor(private readonly homeService: IHomeService) {}
 
   @Get()
   public getHome() {
