@@ -4,6 +4,7 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
+
 blocks:
   - name: Test & Build
     task:
@@ -19,3 +20,22 @@ blocks:
             - yarn test
             - test-results publish junit.xml
             - yarn build
+
+        - name: Build docker container
+          commands:
+            - checkout
+            - docker build .
+
+  - name: Deploy
+    run:
+      when: "branch = 'master'"
+    task:
+      jobs:
+        - name: Install flyctl
+          commands:
+            - curl -L https://fly.io/install.sh | sh
+
+        - name: Deploy to matchfees.percymain.org
+          commands:
+            - checkout
+            - flyctl deploy
