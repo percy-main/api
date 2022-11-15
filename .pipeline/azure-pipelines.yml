@@ -4,9 +4,6 @@ trigger:
   - master
   - pr
 
-pool:
-  vmImage: ubuntu-latest
-
 stages:
   - stage: build
     displayName: Test & build application
