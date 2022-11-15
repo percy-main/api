@@ -24,11 +24,11 @@ blocks:
   - name: Deploy
     run:
       when: "branch = 'master'"
+    secrets:
+      - name: fly-io-api-token
     task:
       jobs:
         - name: Deploy to matchfees.percymain.org
-          secrets:
-            - name: fly-io-api-token
           commands:
             - checkout
             - curl -L https://fly.io/install.sh | sh
