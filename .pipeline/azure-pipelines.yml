@@ -1,0 +1,14 @@
+name: $(Rev:r)
+
+trigger:
+  - master
+  - pr
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: build
+    displayName: Test & build application
+    jobs:
+      - template: build.yml
