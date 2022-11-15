@@ -21,21 +21,15 @@ blocks:
             - test-results publish junit.xml
             - yarn build
 
-        - name: Build docker container
-          commands:
-            - checkout
-            - docker build .
-
   - name: Deploy
     run:
       when: "branch = 'master'"
     task:
       jobs:
-        - name: Install flyctl
-          commands:
-            - curl -L https://fly.io/install.sh | sh
-
         - name: Deploy to matchfees.percymain.org
+          secrets:
+            - name: fly-io-api-token
           commands:
             - checkout
-            - flyctl deploy
+            - curl -L https://fly.io/install.sh | sh
+            - /home/semaphore/.fly/bin/flyctl deploy
