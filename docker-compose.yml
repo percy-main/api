@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: postgres:14.4
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=pmcc
+      - POSTGRES_PASSWORD=pmcc
+      - POSTGRES_DB=pmcc
+
+  flyway:
+    image: flyway/flyway:9.8.1
+    command: -url=jdbc:postgresql://db:5432/pmcc -user=pmcc -password=pmcc -connectRetries=60 migrate
+    volumes:
+      - ./migrations:/flyway/sql/migrations
+      - ./conf:/flyway/conf
+    depends_on:
+      - db

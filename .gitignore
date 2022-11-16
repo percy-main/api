@@ -38,3 +38,5 @@ junit.xml
 
 .env.*.local
 .env
+
+.data
