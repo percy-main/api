@@ -1,4 +1,4 @@
-import { Logger } from "winston";
+import { Logger } from "./logger.types";
 
 export class NestLoggerAdapter {
   constructor(private logger: Logger) {}
@@ -7,5 +7,5 @@ export class NestLoggerAdapter {
   public error = this.logger.error.bind(this.logger);
   public warn = this.logger.warn.bind(this.logger);
   public debug = this.logger.debug.bind(this.logger);
-  public verbose = this.logger.verbose.bind(this.logger);
+  public verbose = this.logger.debug.bind(this.logger);
 }
