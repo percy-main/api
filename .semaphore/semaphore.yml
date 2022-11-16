@@ -28,12 +28,14 @@ blocks:
       secrets:
         - name: database-url
         - name: fly-io-api-token
+        - name: wireguard-conf
       jobs:
         - name: Apply DB migrations
           commands:
             - checkout
             - curl -L https://fly.io/install.sh | sh
-            - /home/semaphore/.fly/bin/flyctl proxy 5432 -a match-fees-db
+            - sudo apt install wireguard-tools openresolv
+            - wg-quick up basic
             - |
               docker run \
               -v "$PWD/./migrations:/flyway/sql/migrations" \
@@ -41,6 +43,7 @@ blocks:
               -url=jdbc:"$DATABASE_URL" \
               -connectRetries=10 \
               migrate
+            - wg-quick down basic
 
   - name: Deploy
     run:
