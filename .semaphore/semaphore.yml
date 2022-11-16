@@ -27,7 +27,6 @@ blocks:
     task:
       secrets:
         - name: database-url
-        - name: fly-io-api-token
         - name: wireguard-conf
       jobs:
         - name: Apply DB migrations
@@ -35,7 +34,7 @@ blocks:
             - checkout
             - curl -L https://fly.io/install.sh | sh
             - sudo apt install wireguard-tools openresolv
-            - sudo cp /usr/wireguard/basic.conf /etc/wireguard/basic.conf
+            - sudo cp ~/basic.conf /etc/wireguard/basic.conf
             - wg-quick up basic
             - |
               docker run \
