@@ -11,6 +11,7 @@ async function bootstrap() {
   });
 
   app.enableShutdownHooks();
+  app.enableCors();
 
   await app.listen(appConfig.port);
 }

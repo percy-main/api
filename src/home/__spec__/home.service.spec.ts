@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { CONFIG } from "../../lib/config";
+import { HOME_CONFIG } from "../home.config";
 import { HomeService } from "../home.service";
 
 describe("HomeService", () => {
@@ -10,7 +10,7 @@ describe("HomeService", () => {
       providers: [
         HomeService,
         {
-          provide: CONFIG,
+          provide: HOME_CONFIG,
           useValue: { greeting: "Hola world" },
         },
       ],

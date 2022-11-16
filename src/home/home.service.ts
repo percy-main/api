@@ -1,16 +1,16 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { CONFIG } from "../lib/config";
-import { HomeConfig } from "./home.config";
+import { AuthUser } from "src/auth/auth.types";
+import { HomeConfig, HOME_CONFIG } from "./home.config";
 
 export abstract class IHomeService {
-  getHelloString: () => Promise<string>;
+  getHelloString: (user: AuthUser) => Promise<string>;
 }
 
 @Injectable()
 export class HomeService implements IHomeService {
-  constructor(@Inject(CONFIG) private readonly config: HomeConfig) {}
+  constructor(@Inject(HOME_CONFIG) private readonly config: HomeConfig) {}
 
-  public async getHelloString() {
-    return this.config.greeting;
+  public async getHelloString(user: AuthUser) {
+    return `Hello ${user.sub}`;
   }
 }
