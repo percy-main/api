@@ -32,7 +32,7 @@ blocks:
           commands:
             - checkout
             - curl -L https://fly.io/install.sh | sh
-            - flyctl proxy 5432 -a match-fees-db
+            - /home/semaphore/.fly/bin/flyctl proxy 5432 -a match-fees-db
             - |
               docker run \
               -v "$PWD/./migrations:/flyway/sql/migrations" \
