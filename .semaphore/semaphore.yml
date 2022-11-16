@@ -30,6 +30,8 @@ blocks:
       jobs:
         - name: Apply DB migrations
           commands:
+            - checkout
+            - echo "$PWD"
             - docker run \
               -v "$PWD/./migrations:/flyway/sql/migrations" \
               flyway/flyway:9.8.1 \
