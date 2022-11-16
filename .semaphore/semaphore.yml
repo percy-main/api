@@ -32,7 +32,8 @@ blocks:
           commands:
             - checkout
             - echo "$PWD"
-            - docker run \
+            - |
+              docker run \
               -v "$PWD/./migrations:/flyway/sql/migrations" \
               flyway/flyway:9.8.1 \
               -url=jdbc:"$DATABASE_URL" \
