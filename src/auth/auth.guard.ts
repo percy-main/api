@@ -1,20 +1,37 @@
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import {
+  CanActivate,
+  ExecutionContext,
+  Inject,
+  Injectable,
+} from "@nestjs/common";
 import { Request } from "express";
-import { decode, JwtPayload, verify } from "jsonwebtoken";
+import { decode, verify } from "jsonwebtoken";
 import { LogService } from "src/lib/logging/log.service";
-import { AuthUserRequest } from "./auth.types";
+import { AuthConfig, AUTH_CONFIG } from "./auth.config";
+import { AuthUser, AuthUserRequest } from "./auth.types";
 import { JwksService } from "./jwks.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   private readonly logger: LogService;
 
-  constructor(private readonly jwksService: JwksService) {
+  constructor(
+    private readonly jwksService: JwksService,
+    @Inject(AUTH_CONFIG) private readonly config: AuthConfig,
+  ) {
     this.logger = new LogService();
   }
 
   public async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<Request>();
+
+    if (this.config.authDisabled) {
+      (request as unknown as AuthUserRequest).authuser = {
+        sub: "local|12345",
+      } as AuthUser;
+      return true;
+    }
+
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
@@ -51,7 +68,7 @@ export class AuthGuard implements CanActivate {
           this.logger.warn("Error verifying token", { err });
           return resolve(false);
         }
-        (request as unknown as AuthUserRequest).authuser = result as JwtPayload;
+        (request as unknown as AuthUserRequest).authuser = result as AuthUser;
 
         resolve(true);
       }),
