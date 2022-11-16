@@ -7,18 +7,15 @@ FROM node:18-alpine As development
 # Create app directory
 WORKDIR /usr/src/app
 
-# Copy application dependency manifests to the container image.
-# Copying this first prevents re-running npm install on every code change.
+# Install dependencies
 COPY --chown=node:node package.json ./package.json
 COPY --chown=node:node yarn.lock ./yarn.lock
-
-# Install app dependencies using the `npm ci` command instead of `npm install`
 RUN yarn install
 
-# Bundle app source
+# Copy source code
 COPY --chown=node:node . .
 
-# Use the node user from the image (instead of the root user)
+# Set user
 USER node
 
 ###################
@@ -32,12 +29,13 @@ WORKDIR /usr/src/app
 COPY --chown=node:node package.json ./package.json
 COPY --chown=node:node yarn.lock ./yarn.lock
 
-# In order to run `npm run build` we need access to the Nest CLI which is a dev dependency. In the previous development stage we ran `npm ci` which installed all dependencies, so we can copy over the node_modules directory from the development image
+# Copy dependencies from dev stage
 COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
 
+# Copy source
 COPY --chown=node:node . .
 
-# Run the build command which creates the production bundle
+# Run the build command to create production bundle
 RUN yarn build
 
 # Set NODE_ENV environment variable
@@ -54,9 +52,12 @@ USER node
 
 FROM node:18-alpine As production
 
-# Copy the bundled code from the build stage to the production image
+WORKDIR /usr/src/app
+
+# Copy deps, bundled code, and env config from the build stage to the production image
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/app/.env.* ./
 
 # Start the server using the production build
-CMD [ "yarn", "start:prod" ]
+CMD [ "node", "-r", "dotenv-flow/config", "dist/main" ]
