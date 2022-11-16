@@ -21,6 +21,22 @@ blocks:
             - test-results publish junit.xml
             - yarn build
 
+  - name: Migrations
+    run:
+      when: "branch = 'master'"
+    task:
+      secrets:
+        - name: database-url
+      jobs:
+        - name: Apply DB migrations
+          commands:
+            - docker run \
+              -v "$PWD/./migrations:/flyway/sql/migrations" \
+              flyway/flyway:9.8.1 \
+              -url=jdbc:"$DATABASE_URL" \
+              -connectRetries=10 \
+              migrate
+
   - name: Deploy
     run:
       when: "branch = 'master'"

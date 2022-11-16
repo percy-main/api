@@ -13,8 +13,7 @@ services:
 
   flyway:
     image: flyway/flyway:9.8.1
-    command: -url=jdbc:postgresql://db:5432/pmcc -user=pmcc -password=pmcc
-      -connectRetries=60 migrate
+    command: -url=jdbc:postgresql://db:5432/pmcc -user=pmcc -password=pmcc -connectRetries=60 migrate
     volumes:
       - ./migrations:/flyway/sql/migrations
       - ./conf:/flyway/conf
