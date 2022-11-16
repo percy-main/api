@@ -27,6 +27,7 @@ blocks:
     task:
       secrets:
         - name: database-url
+        - name: fly-io-api-token
       jobs:
         - name: Apply DB migrations
           commands:
