@@ -12,25 +12,23 @@ export class LogService {
   }
 
   info(msg: string, ctx?: Record<string, unknown>) {
-    this.logger.info(msg, { ...this.ctx, ...ctx });
+    this.logger.info({ ...this.ctx, ...ctx }, msg);
   }
 
   error(msg: string, ctx?: Record<string, unknown>) {
-    this.logger.error(msg, { ...this.ctx, ...ctx });
+    this.logger.error({ ...this.ctx, ...ctx }, msg);
   }
 
   warn(msg: string, ctx?: Record<string, unknown>) {
-    this.logger.warn(msg, { ...this.ctx, ...ctx });
+    this.logger.warn({ ...this.ctx, ...ctx }, msg);
   }
 
   debug(msg: string, ctx?: Record<string, unknown>) {
-    if (this.logger.isDebugEnabled()) {
-      this.logger.debug(msg, { ...this.ctx, ...ctx });
-    }
+    this.logger.debug({ ...this.ctx, ...ctx }, msg);
   }
 
   addCtx(ctx: Record<string, unknown>) {
-    this.logger.info("log context added", ctx);
+    this.logger.info(ctx, "log context added");
   }
 
   log = this.info.bind(this);
