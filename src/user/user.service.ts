@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { first } from "lodash";
 import { Client } from "pg";
-import { AuthUser } from "../auth/auth.types";
+import { TAuthUser } from "../auth/auth.types";
 import { LogService } from "../lib/logging/log.service";
-import { DbUser } from "./dto/dbuser.dto";
+import { DbUser } from "./dto/user.dto";
 import { getUserByIdentityId } from "./queries/getUserByIdentityId.queries";
 
 @Injectable()
@@ -13,7 +13,7 @@ export class UserService {
     private readonly logger: LogService,
   ) {}
 
-  public async getUserByIdentityId(user: AuthUser) {
+  public async getUserByIdentityId(user: TAuthUser) {
     const result = await getUserByIdentityId.run(
       { identity_id: user.sub },
       this.dbClient,

@@ -8,7 +8,7 @@ import { Request } from "express";
 import { decode, verify } from "jsonwebtoken";
 import { LogService } from "src/lib/logging/log.service";
 import { AuthConfig, AUTH_CONFIG } from "./auth.config";
-import { AuthUser, AuthUserRequest } from "./auth.types";
+import { AuthUserRequest, TAuthUser } from "./auth.types";
 import { JwksService } from "./jwks.service";
 
 @Injectable()
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
     if (this.config.authDisabled) {
       (request as unknown as AuthUserRequest).authuser = {
         sub: "local|12345",
-      } as AuthUser;
+      } as TAuthUser;
       return true;
     }
 
@@ -68,7 +68,7 @@ export class AuthGuard implements CanActivate {
           this.logger.warn("Error verifying token", { err });
           return resolve(false);
         }
-        (request as unknown as AuthUserRequest).authuser = result as AuthUser;
+        (request as unknown as AuthUserRequest).authuser = result as TAuthUser;
 
         resolve(true);
       }),
