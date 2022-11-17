@@ -39,6 +39,7 @@ blocks:
               curl http://top2.nearest.of.match-fees-db.internal:5432
             - |
               docker run \
+              --network=host \
               -v "$PWD/migrations:/flyway/sql/migrations" \
               flyway/flyway:9.8.1 \
               -url=jdbc:"$DATABASE_URL" \
