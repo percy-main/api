@@ -38,7 +38,7 @@ blocks:
             - wg-quick up basic
             - |
               docker run \
-              -v "$PWD/./migrations:/flyway/sql/migrations" \
+              -v "$PWD/migrations:/flyway/sql/migrations" \
               flyway/flyway:9.8.1 \
               -url=jdbc:"$DATABASE_URL" \
               -connectRetries=10 \
