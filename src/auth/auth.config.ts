@@ -4,7 +4,7 @@ export const AUTH_CONFIG = Symbol("AUTH_CONFIG");
 
 export const authConfig = buildConfig((b) => ({
   jwksUri: b.required("JWKS_URI"),
-  authDisabled: b.required("AUTH_DISABLED", {
+  authDisabled: b.optional("AUTH_DISABLED", {
     coerce: (val) => val === "true",
   }),
 }));

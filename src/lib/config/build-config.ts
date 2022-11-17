@@ -74,16 +74,16 @@ const required =
 
 const optional =
   (report: (a: ValidationResult<Any>) => Any, env: NodeJS.ProcessEnv) =>
-  <T = string>(
+  <T = string | undefined>(
     envVar: string,
     {
       coerce = (a: string | undefined) => a as Any,
       validate = (_value, { valid }) => valid(),
     }: {
-      coerce?: Coercer<T | undefined, string | undefined>;
-      validate?: Validator<T | undefined>;
+      coerce?: Coercer<T, string | undefined>;
+      validate?: Validator<T>;
     } = {},
-  ): T | undefined => {
+  ): T => {
     try {
       const value = env[envVar];
 
