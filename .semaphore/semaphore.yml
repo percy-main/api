@@ -36,8 +36,6 @@ blocks:
             - sudo cp ~/basic.conf /etc/wireguard/basic.conf
             - wg-quick up basic
             - |
-              curl http://top2.nearest.of.match-fees-db.internal:5432
-            - |
               docker run \
               --network=host \
               -v "$PWD/migrations:/flyway/sql/migrations" \
