@@ -36,7 +36,7 @@ blocks:
             - sudo cp ~/basic.conf /etc/wireguard/basic.conf
             - wg-quick up basic
             - |
-              curl $DATABASE_URL
+              curl ${$DATABASE_URL/postgresql/http}
             - |
               docker run \
               -v "$PWD/migrations:/flyway/sql/migrations" \
