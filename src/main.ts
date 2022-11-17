@@ -4,6 +4,7 @@ import { appConfig } from "./app.config";
 import { AppModule } from "./app.module";
 import { BaseLogger } from "./lib/logging/logger.base";
 import { NestLoggerAdapter } from "./lib/logging/logger.nestadapter";
+import { setupOpenApi } from "./openapi";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -12,6 +13,8 @@ async function bootstrap() {
 
   app.enableShutdownHooks();
   app.enableCors();
+
+  setupOpenApi(app);
 
   await app.listen(appConfig.port);
 }
