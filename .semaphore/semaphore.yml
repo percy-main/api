@@ -32,7 +32,6 @@ blocks:
         - name: Apply DB migrations
           commands:
             - checkout
-            - curl -L https://fly.io/install.sh | sh
             - sudo apt install wireguard-tools openresolv
             - sudo cp ~/basic.conf /etc/wireguard/basic.conf
             - wg-quick up basic
