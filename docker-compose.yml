@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres:14.4
@@ -10,6 +10,14 @@ services:
       - POSTGRES_USER=pmcc
       - POSTGRES_PASSWORD=pmcc
       - POSTGRES_DB=pmcc
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "pg_isready -U supertokens_user" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pmcc_net
 
   flyway:
     image: flyway/flyway:9.8.1
@@ -19,3 +27,27 @@ services:
       - ./conf:/flyway/conf
     depends_on:
       - db
+    networks:
+      - pmcc_net
+
+  supertokens:
+    image: registry.supertokens.io/supertokens/supertokens-postgresql
+    depends_on:
+      - db
+    ports:
+      - 3567:3567
+    environment:
+      POSTGRESQL_CONNECTION_URI: "postgresql://pmcc:pmcc@db:5432/pmcc"
+    networks:
+      - pmcc_net
+    restart: unless-stopped
+    healthcheck:
+      test: >
+        bash -c 'exec 3<>/dev/tcp/127.0.0.1/3567 && echo -e "GET /hello HTTP/1.1\r\nhost: 127.0.0.1:3567\r\nConnection: close\r\n\r\n" >&3 && cat <&3 | grep "Hello"'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  pmcc_net:
+    driver: bridge

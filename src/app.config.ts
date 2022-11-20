@@ -7,4 +7,7 @@ export const appConfig = buildConfig((b) => ({
     coerce: b.coerce.number,
     validate: b.validate.number,
   }),
+  corsAllowedDomains: b.required("CORS_ALLOWED_DOMAINS", {
+    coerce: (s) => s.split(","),
+  }),
 }))();
