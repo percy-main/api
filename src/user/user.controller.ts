@@ -5,8 +5,7 @@ import {
   ApiNotFoundResponse,
   ApiResponse,
 } from "@nestjs/swagger";
-import { TAuthUser } from "../auth/auth.types";
-import { AuthUser } from "../auth/authuser.decorator";
+import { Session, TSession } from "../auth/session.decorator";
 import { User } from "./dto/user.dto";
 import { UserService } from "./user.service";
 
@@ -31,7 +30,7 @@ export class UserController {
     description: "Bearer authorization",
     example: "Bearer ey12345=",
   })
-  public async getMe(@AuthUser() authUser: TAuthUser) {
+  public async getMe(@Session() authUser: TSession) {
     const user = await this.userService.getUserByIdentityId(authUser);
 
     if (!user) {

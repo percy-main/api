@@ -1,6 +1,5 @@
 import { Controller, Get } from "@nestjs/common";
-import { TAuthUser } from "../auth/auth.types";
-import { AuthUser } from "../auth/authuser.decorator";
+import { Session, TSession } from "../auth/session.decorator";
 import { IHomeService } from "./home.service";
 
 @Controller()
@@ -8,7 +7,7 @@ export class HomeController {
   constructor(private readonly homeService: IHomeService) {}
 
   @Get()
-  public getHome(@AuthUser() user: TAuthUser) {
+  public getHome(@Session() user: TSession) {
     return this.homeService.getHelloString(user);
   }
 }
