@@ -1,12 +1,17 @@
-import { Module } from "@nestjs/common";
-import { APP_GUARD } from "@nestjs/core";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ConfigModule } from "../lib/config";
 import { authConfig, AUTH_CONFIG } from "./auth.config";
-import { AuthGuard } from "./auth.guard";
-import { JwksService } from "./jwks.service";
+import { AuthMiddleware } from "./auth.middleware";
+import { AuthService } from "./auth.service";
 
 @Module({
+  providers: [AuthService],
+  exports: [AuthService],
+  controllers: [],
   imports: [ConfigModule.forConfig(authConfig, AUTH_CONFIG)],
-  providers: [JwksService, { provide: APP_GUARD, useClass: AuthGuard }],
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes("*");
+  }
+}
