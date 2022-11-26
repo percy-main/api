@@ -11,7 +11,7 @@ export class CreateUserDTO {
 
   @ApiProperty({
     description: "Date Of Birth",
-    example: "01/01/1980",
+    example: "2002-11-26",
     type: "string",
   })
   @Transform(({ value }) => dayjs(value))

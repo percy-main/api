@@ -13,7 +13,7 @@ export class UserDTO {
       id: user.id,
       identityId: user.identity_id,
       name: user.name,
-      dob: dayjs(user.dob).format("DD/MM/YYYY"),
+      dob: dayjs(user.dob).format("YYYY-MM-DD"),
     });
   }
 
@@ -26,6 +26,6 @@ export class UserDTO {
   @ApiProperty({ description: "Name", example: "John Smith" })
   name!: string;
 
-  @ApiProperty({ description: "Date Of Birth", example: "01/01/1980" })
+  @ApiProperty({ description: "Date Of Birth", example: "2002-11-26" })
   dob!: string;
 }
