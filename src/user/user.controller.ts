@@ -13,7 +13,8 @@ import {
   ApiResponse,
 } from "@nestjs/swagger";
 import { Session, TSession } from "../auth/session.decorator";
-import { CreateUserDTO, UserDTO } from "./dto/user.dto";
+import { Error400Dto } from "../lib/dto/error400.dto";
+import { CreateUserDTO, UserDTO } from "./dto";
 import { UserService } from "./user.service";
 
 @Controller("user")
@@ -24,7 +25,7 @@ export class UserController {
   @ApiResponse({
     status: 200,
     description: "The currently logged in user",
-    type: UserDTO,
+    type: () => UserDTO,
   })
   @ApiNotFoundResponse({
     description: "No DB user found for the current user",
@@ -51,7 +52,12 @@ export class UserController {
   @ApiResponse({
     status: 200,
     description: "The result of creating the user",
-    type: UserDTO,
+    type: () => UserDTO,
+  })
+  @ApiResponse({
+    status: 400,
+    description: "Bad request",
+    type: () => Error400Dto,
   })
   @ApiForbiddenResponse({
     description: "Inadequate authorization",

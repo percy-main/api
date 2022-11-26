@@ -3,7 +3,7 @@ import { first } from "lodash";
 import { Client } from "pg";
 import { TSession } from "../auth/session.decorator";
 import { LogService } from "../lib/logging/log.service";
-import { CreateUserDTO, DbUserDTO } from "./dto/user.dto";
+import { CreateUserDTO, DbUserDTO } from "./dto";
 import { createUser } from "./queries/createUser.queries";
 import { getUserByIdentityId } from "./queries/getUserByIdentityId.queries";
 
@@ -25,7 +25,7 @@ export class UserService {
 
   public async createUser(user: TSession, { name, dob }: CreateUserDTO) {
     const result = await createUser.run(
-      { identity_id: user.getUserId(), name, dob },
+      { identity_id: user.getUserId(), name, dob: dob.toDate() },
       this.dbClient,
     );
 
