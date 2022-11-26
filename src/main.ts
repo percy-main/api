@@ -5,6 +5,7 @@ import supertokens from "supertokens-node";
 import { appConfig } from "./app.config";
 import { AppModule } from "./app.module";
 import { SupertokensExceptionFilter } from "./auth/auth.filter";
+import { AuthGuard } from "./auth/auth.guard";
 import { BaseLogger } from "./lib/logging/logger.base";
 import { NestLoggerAdapter } from "./lib/logging/logger.nestadapter";
 import { setupOpenApi } from "./openapi";
@@ -23,7 +24,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new SupertokensExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  //   app.useGlobalGuards(new AuthGuard());
+  app.useGlobalGuards(new AuthGuard());
 
   setupOpenApi(app);
 
