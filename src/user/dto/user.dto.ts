@@ -14,7 +14,7 @@ export class DbUserDTO {
   id!: string;
   identity_id!: string;
   name!: string;
-  dob!: Date | null;
+  dob!: Date;
 }
 
 export class UserDTO {
@@ -41,7 +41,7 @@ export class UserDTO {
   name!: string;
 
   @ApiProperty({ description: "Date Of Birth", example: "01/01/1980" })
-  dob!: Date | null;
+  dob!: Date;
 }
 
 export class CreateUserDTO {

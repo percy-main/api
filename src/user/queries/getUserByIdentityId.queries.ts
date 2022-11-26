@@ -8,7 +8,7 @@ export interface IGetUserByIdentityIdParams {
 
 /** 'GetUserByIdentityId' return type */
 export interface IGetUserByIdentityIdResult {
-  dob: Date | null;
+  dob: Date;
   id: string;
   identity_id: string;
   name: string;

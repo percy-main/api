@@ -10,7 +10,7 @@ export interface ICreateUserParams {
 
 /** 'CreateUser' return type */
 export interface ICreateUserResult {
-  dob: Date | null;
+  dob: Date;
   id: string;
   identity_id: string;
   name: string;
