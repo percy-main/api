@@ -3,7 +3,8 @@ import { first } from "lodash";
 import { Client } from "pg";
 import { TSession } from "../auth/session.decorator";
 import { LogService } from "../lib/logging/log.service";
-import { DbUser } from "./dto/user.dto";
+import { CreateUserDTO, DbUserDTO } from "./dto/user.dto";
+import { createUser } from "./queries/createUser.queries";
 import { getUserByIdentityId } from "./queries/getUserByIdentityId.queries";
 
 @Injectable()
@@ -19,6 +20,19 @@ export class UserService {
       this.dbClient,
     );
 
+    return this.dbUserToDTO(user, result);
+  }
+
+  public async createUser(user: TSession, { name, dob }: CreateUserDTO) {
+    const result = await createUser.run(
+      { identity_id: user.getUserId(), name, dob },
+      this.dbClient,
+    );
+
+    return this.dbUserToDTO(user, result);
+  }
+
+  private dbUserToDTO(user: TSession, result: DbUserDTO[]) {
     const dbUser = first(result);
 
     if (!dbUser) {
@@ -28,6 +42,6 @@ export class UserService {
       return;
     }
 
-    return DbUser.create(dbUser);
+    return DbUserDTO.create(dbUser);
   }
 }
