@@ -1,3 +1,4 @@
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import supertokens from "supertokens-node";
@@ -22,6 +23,7 @@ async function bootstrap() {
   });
 
   app.useGlobalFilters(new SupertokensExceptionFilter());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalGuards(new AuthGuard());
 
   setupOpenApi(app);

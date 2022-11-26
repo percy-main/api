@@ -8,6 +8,7 @@ export interface IGetUserByIdentityIdParams {
 
 /** 'GetUserByIdentityId' return type */
 export interface IGetUserByIdentityIdResult {
+  dob: Date;
   id: string;
   identity_id: string;
   name: string;
@@ -19,7 +20,7 @@ export interface IGetUserByIdentityIdQuery {
   result: IGetUserByIdentityIdResult;
 }
 
-const getUserByIdentityIdIR: any = {"usedParamSet":{"identity_id":true},"params":[{"name":"identity_id","required":true,"transform":{"type":"scalar"},"locs":[{"a":85,"b":97}]}],"statement":"SELECT\n    id,\n    name,\n    identity_id\nFROM\n    pmcc.users\nWHERE\n    identity_id = :identity_id!\nLIMIT 1"};
+const getUserByIdentityIdIR: any = {"usedParamSet":{"identity_id":true},"params":[{"name":"identity_id","required":true,"transform":{"type":"scalar"},"locs":[{"a":94,"b":106}]}],"statement":"SELECT\n    id,\n    name,\n    identity_id,\n    dob\nFROM\n    pmcc.users\nWHERE\n    identity_id = :identity_id!\nLIMIT 1"};
 
 /**
  * Query generated from SQL:
@@ -27,7 +28,8 @@ const getUserByIdentityIdIR: any = {"usedParamSet":{"identity_id":true},"params"
  * SELECT
  *     id,
  *     name,
- *     identity_id
+ *     identity_id,
+ *     dob
  * FROM
  *     pmcc.users
  * WHERE

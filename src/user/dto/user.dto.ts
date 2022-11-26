@@ -1,31 +1,19 @@
 import { ApiProperty } from "@nestjs/swagger";
+import dayjs from "dayjs";
 import * as uuid from "uuid";
-import { IGetUserByIdentityIdResult } from "../queries/getUserByIdentityId.queries";
+import { DbUserDTO } from "./dbUser.dto";
 
-export class DbUser {
-  private constructor(user: DbUser) {
+export class UserDTO {
+  private constructor(user: UserDTO) {
     Object.assign(this, user);
   }
 
-  static create(user: IGetUserByIdentityIdResult) {
-    return new DbUser(user);
-  }
-
-  id!: string;
-  identity_id!: string;
-  name!: string;
-}
-
-export class User {
-  private constructor(user: User) {
-    Object.assign(this, user);
-  }
-
-  static fromDbUser(user: DbUser) {
-    return new User({
+  static fromDbUser(user: DbUserDTO) {
+    return new UserDTO({
       id: user.id,
       identityId: user.identity_id,
       name: user.name,
+      dob: dayjs(user.dob).format("YYYY-MM-DD"),
     });
   }
 
@@ -37,4 +25,7 @@ export class User {
 
   @ApiProperty({ description: "Name", example: "John Smith" })
   name!: string;
+
+  @ApiProperty({ description: "Date Of Birth", example: "2002-11-26" })
+  dob!: string;
 }

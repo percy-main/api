@@ -2,7 +2,8 @@
 SELECT
     id,
     name,
-    identity_id
+    identity_id,
+    dob
 FROM
     pmcc.users
 WHERE
