@@ -1,0 +1,1 @@
+ALTER TABLE pmcc.users ADD CONSTRAINT unique_identity_id UNIQUE (identity_id);
