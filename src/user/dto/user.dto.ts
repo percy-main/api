@@ -3,17 +3,24 @@ import dayjs from "dayjs";
 import * as uuid from "uuid";
 import { DbUserDTO } from "./dbUser.dto";
 
+export type UserAuthProperties = {
+  email: string;
+  emailIsVerified: boolean;
+};
+
 export class UserDTO {
   private constructor(user: UserDTO) {
     Object.assign(this, user);
   }
 
-  static fromDbUser(user: DbUserDTO) {
+  static create(user: DbUserDTO & UserAuthProperties) {
     return new UserDTO({
       id: user.id,
       identityId: user.identity_id,
       name: user.name,
       dob: dayjs(user.dob).format("YYYY-MM-DD"),
+      email: user.email,
+      emailIsVerified: user.emailIsVerified,
     });
   }
 
@@ -28,4 +35,13 @@ export class UserDTO {
 
   @ApiProperty({ description: "Date Of Birth", example: "2002-11-26" })
   dob!: string;
+
+  @ApiProperty({ description: "Email address", example: "test@example.com" })
+  email!: string;
+
+  @ApiProperty({
+    description: "Has email address been verified",
+    example: true,
+  })
+  emailIsVerified!: boolean;
 }
