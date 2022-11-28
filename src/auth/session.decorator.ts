@@ -6,6 +6,8 @@ export const Session = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const { session } = ctx.switchToHttp().getRequest();
 
+    console.log({ session, devMode: staticAuthConfig.devMode });
+
     if (!session) {
       if (staticAuthConfig.devMode) {
         return {

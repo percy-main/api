@@ -19,9 +19,21 @@ services:
     networks:
       - pmcc_net
 
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pmcc@percymain.org
+      PGADMIN_DEFAULT_PASSWORD: pmcc
+    ports:
+      - "5050:80"
+    networks:
+      - pmcc_net
+
   flyway:
     image: flyway/flyway:9.8.1
-    command: -url=jdbc:postgresql://db:5432/pmcc -user=pmcc -password=pmcc -connectRetries=60 migrate
+    command: -url=jdbc:postgresql://db:5432/pmcc -user=pmcc -password=pmcc -connectRetries=60 -defaultSchema=public migrate
     volumes:
       - ./migrations:/flyway/sql/migrations
       - ./conf:/flyway/conf

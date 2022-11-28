@@ -3,6 +3,7 @@ CREATE TABLE pmcc.membership (
     name TEXT NOT NULL,
     price_annual SERIAL NOT NULL,
     price_monthly SERIAL NOT NULL,
+    created_by UUID NOT NULL REFERENCES pmcc.users(id),
     invalid_from TIMESTAMPTZ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
