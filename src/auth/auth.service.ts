@@ -7,7 +7,7 @@ import EmailVerification, {
   EmailVerificationClaim,
 } from "supertokens-node/recipe/emailverification";
 import Session from "supertokens-node/recipe/session";
-import { AuthConfig, AUTH_CONFIG } from "./auth.config";
+import { AuthConfig, AUTH_CONFIG, staticAuthConfig } from "./auth.config";
 import { TSession } from "./session.decorator";
 
 @Injectable()
@@ -29,6 +29,12 @@ export class AuthService {
   }
 
   public async getUserEmail(user: TSession) {
+    if (staticAuthConfig.devMode) {
+      return {
+        email: "test@example.com",
+        emailIsVerified: true,
+      };
+    }
     const id = user.getUserId();
 
     const emailIsVerified = await user.getClaimValue(EmailVerificationClaim);

@@ -15,6 +15,11 @@ export const authConfig = buildConfig((b) => ({
   ),
   connectionURI: b.required("AUTH_CONNECTION_URI"),
   apiKey: b.optional("AUTH_API_KEY"),
+  devMode: b.optional("DEV_MODE", {
+    coerce: b.coerce.bool,
+  }),
 }));
+
+export const staticAuthConfig = authConfig();
 
 export type AuthConfig = Config<typeof authConfig>;
