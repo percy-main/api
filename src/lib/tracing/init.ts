@@ -1,3 +1,5 @@
 import trace from "dd-trace";
 
-trace.init();
+trace.init({
+  version: process.env.VERSION,
+});

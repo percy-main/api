@@ -58,4 +58,4 @@ blocks:
           commands:
             - checkout
             - curl -L https://fly.io/install.sh | sh
-            - /home/semaphore/.fly/bin/flyctl deploy
+            - /home/semaphore/.fly/bin/flyctl deploy --env VERSION=${SEMAPHORE_GIT_SHA}
