@@ -1,4 +1,7 @@
-import pino from "pino";
+import { compact } from "lodash";
+import dd from "pino-datadog";
+import pino from "pino-multi-stream";
+import { logConfig } from "./log.config";
 import { Logger } from "./logger.types";
 
 const addContext = () => {
@@ -7,6 +10,8 @@ const addContext = () => {
     deploymentEnvironment: process.env.DEPLOYMENT_ENV,
   };
 };
+
+const { datadogApiKey } = logConfig();
 
 export class BaseLogger {
   private static logger: Logger;
@@ -19,6 +24,16 @@ export class BaseLogger {
         },
         level: process.env.LOG_LEVEL || "info",
         mixin: addContext,
+        streams: compact([
+          { stream: process.stdout },
+          datadogApiKey && {
+            stream: dd.createWriteStreamSync({
+              apiKey: datadogApiKey,
+              eu: true,
+              service: "api",
+            }),
+          },
+        ]),
       });
     }
     return this.logger;
