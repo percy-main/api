@@ -25,6 +25,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "dayjs": "^1.11.6",
+    "dd-trace": "^3.8.0",
     "dotenv-flow": "^3.2.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^3.0.0",
