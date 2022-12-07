@@ -33,11 +33,10 @@ export class MembershipController {
     description: "Bearer authorization",
     example: "Bearer ey12345=",
   })
-  public async createUser(
+  public async createMembership(
     @Session() session: TSession,
     @Body() createMembershipDTO: CreateMembershipDTO,
   ): Promise<MembershipDTO> {
-    console.log({ session, createMembershipDTO });
     const membership = await this.membershipService.createMembership(
       createMembershipDTO,
       session,
