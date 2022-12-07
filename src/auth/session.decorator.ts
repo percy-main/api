@@ -3,10 +3,8 @@ import { SessionContainer } from "supertokens-node/recipe/session";
 import { staticAuthConfig } from "./auth.config";
 
 export const Session = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) => {
+  (_: never, ctx: ExecutionContext) => {
     const { session } = ctx.switchToHttp().getRequest();
-
-    console.log({ session, devMode: staticAuthConfig.devMode });
 
     if (!session) {
       if (staticAuthConfig.devMode) {

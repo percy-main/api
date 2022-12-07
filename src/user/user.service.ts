@@ -6,6 +6,7 @@ import { LogService } from "../lib/logging/log.service";
 import { CreateUserDTO, DbUserDTO } from "./dto";
 import { createUser } from "./queries/createUser.queries";
 import { getUserByIdentityId } from "./queries/getUserByIdentityId.queries";
+import { getUserPermissions } from "./queries/getUserPermissions.queries";
 
 @Injectable()
 export class UserService {
@@ -30,6 +31,13 @@ export class UserService {
     );
 
     return this.dbUserToDTO(user, result);
+  }
+
+  public async getPermissions(identityId: string) {
+    return await getUserPermissions.run(
+      { identity_id: identityId },
+      this.dbClient,
+    );
   }
 
   private dbUserToDTO(user: TSession, result: DbUserDTO[]) {

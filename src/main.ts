@@ -14,7 +14,9 @@ import { setupOpenApi } from "./openapi";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger: new NestLoggerAdapter(BaseLogger.getLogger()),
+    ...(process.env.NODE_ENV !== "development" && {
+      logger: new NestLoggerAdapter(BaseLogger.getLogger()),
+    }),
   });
 
   app.enableShutdownHooks();
