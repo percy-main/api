@@ -10,4 +10,7 @@ export const appConfig = buildConfig((b) => ({
   corsAllowedDomains: b.required("CORS_ALLOWED_DOMAINS", {
     coerce: (s) => s.split(","),
   }),
+  devMode: b.optional("DEV_MODE", {
+    coerce: b.coerce.bool,
+  }),
 }))();

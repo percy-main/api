@@ -4,12 +4,16 @@ import { Error as STError } from "supertokens-node";
 
 import { VerifySessionOptions } from "supertokens-node/recipe/session";
 import { verifySession } from "supertokens-node/recipe/session/framework/express";
+import { authConfig } from "./auth.config";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private readonly verifyOptions?: VerifySessionOptions) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    if (authConfig().devMode) {
+      return true;
+    }
     const ctx = context.switchToHttp();
 
     if (ctx.getRequest<Request>().path.startsWith("/openapi")) {

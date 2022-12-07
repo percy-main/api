@@ -5,7 +5,7 @@ export class Error400Dto {
   statusCode!: number;
 
   @ApiProperty({
-    example: ["name must not be empty", "dob must be a valid date"],
+    example: ["descriptive error messages"],
   })
   message!: string[];
 
